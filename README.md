@@ -19,13 +19,17 @@ A playful toolkit for sniffing out large-language-model output—whether it’s 
 
 - **KITT Scale Benchmarks**:  
   1. **Knight Industries Two Thousand** (KITT, _Knight Rider_ Trans Am): **6.25%**  
-     ![KITT car](image0)  
+     ![KITT car](image0)  ![1-pontiac-firebird-trans-am-982-knight-industries-two-thousand-kitt-knight-rider-vladyslav-shapovalenko](https://github.com/user-attachments/assets/50d8e290-3936-4094-8f98-b983b4a0cdce)
+
   2. **Al Gore Acceptance Speech**: **17.71%**  
-     ![Al Gore](image1)  
+     ![Al Gore](image1)  ![POW27_A](https://github.com/user-attachments/assets/1e032170-d5d9-4409-a1e6-bb58c39df63e)
+
   3. **Elizabeth Holmes Bio Excerpt**: **27.42%**  
-     ![Elizabeth Holmes](image2)  
+     ![Elizabeth Holmes](image2)  ![4010bc283493b480fec16dc40e9f682f](https://github.com/user-attachments/assets/841a7863-b149-48d6-830b-7a5a8b403fd5)
+
   4. **James Joyce, *Finnegans Wake* (“riverrun”…)**: **2.45%**  
-     ![James Joyce](image3)  
+     ![James Joyce](image3)  ![th](https://github.com/user-attachments/assets/0cf42037-23ae-4163-ba04-e84592bd7eec)
+
 
 ---
 
