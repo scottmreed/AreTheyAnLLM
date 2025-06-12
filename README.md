@@ -35,3 +35,33 @@ A playful toolkit for sniffing out large-language-model output—whether it’s 
    ```bash
    git clone https://github.com/your-org/AreTheyAnLLM.git
    cd AreTheyAnLLM
+2. **Install dependencies**
+pip install -r requirements.txt
+Configure
+Create a .env file containing:
+OPENAI_API_KEY=sk-...
+🛠️ Usage
+
+Text mode
+from isitllm import llm_or_human
+
+snippet = "In a hole in the ground there lived a hobbit..."
+score = llm_or_human(snippet)
+print(f"LLM Probability: {score*100:.2f}%")
+Voice mode
+python realtime_transcribe_detect_with_logging.py
+# → speak for 15 seconds (or press ENTER to stop early)
+Check transcript.txt for the full Δ/✔ log.
+Watch your LLM score roll in every 5 s chunk.
+🤝 Contributing
+
+Pull requests welcome!
+
+Add more benchmarks to the KITT Scale
+Tweak flush intervals or model choice
+Improve the LLM detector algorithm
+📜 License
+
+MIT © 2025 Scott Reed
+
+
