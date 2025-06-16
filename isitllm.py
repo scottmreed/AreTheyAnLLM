@@ -5,8 +5,6 @@ import re
 import pickle
 import hashlib
 import time  # Added for time tracking
-import requests
-from io import BytesIO
 from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -210,19 +208,19 @@ if __name__ == "__main__":
             # Plot the result against reference benchmarks
             def plot_with_icons(score):
                 benchmarks = {
+                    "James Joyce": 2.45,
                     "KITT": 6.25,
                     "Al Gore": 17.71,
                     "Elizabeth Holmes": 27.42,
-                    "James Joyce": 2.45,
                     "Input Text": score,
                 }
 
-                icon_urls = {
-                    "KITT": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f697.png",
-                    "Al Gore": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f3a4.png",
-                    "Elizabeth Holmes": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f9ea.png",
-                    "James Joyce": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f4da.png",
-                    "Input Text": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f9e0.png",
+                icon_paths = {
+                    "KITT": os.path.join("images", "icons", "kitt.png"),
+                    "Al Gore": os.path.join("images", "icons", "al_gore.png"),
+                    "Elizabeth Holmes": os.path.join("images", "icons", "elizabeth_holmes.png"),
+                    "James Joyce": os.path.join("images", "icons", "james_joyce.png"),
+                    "Input Text": os.path.join("images", "icons", "brain.png"),
                 }
 
                 names = list(benchmarks.keys())
@@ -236,12 +234,16 @@ if __name__ == "__main__":
                 ax.set_title("KITT Scale Comparison")
 
                 for bar, name in zip(bars, names):
-                    url = icon_urls.get(name)
+                    path = icon_paths.get(name)
                     try:
-                        resp = requests.get(url, timeout=5)
-                        icon_img = Image.open(BytesIO(resp.content))
-                        im = OffsetImage(icon_img, zoom=0.3)
-                        ab = AnnotationBbox(im, (bar.get_x() + bar.get_width() / 2, bar.get_height()), frameon=False, box_alignment=(0.5, -0.1))
+                        icon_img = Image.open(path)
+                        im = OffsetImage(icon_img, zoom=1)
+                        ab = AnnotationBbox(
+                            im,
+                            (bar.get_x() + bar.get_width() / 2, bar.get_height()),
+                            frameon=False,
+                            box_alignment=(0.5, -0.1),
+                        )
                         ax.add_artist(ab)
                     except Exception as e:
                         print(f"Failed to load icon for {name}: {e}")
