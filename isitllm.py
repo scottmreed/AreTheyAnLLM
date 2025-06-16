@@ -5,6 +5,11 @@ import re
 import pickle
 import hashlib
 import time  # Added for time tracking
+import requests
+from io import BytesIO
+from PIL import Image
+import matplotlib.pyplot as plt
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -178,17 +183,18 @@ def llm_or_human(input_text, max_sentences=4):
 
 
 if __name__ == "__main__":
-    # Example usage:
-    # sample_text = """This is a test sentence. This allows us to see how it works."""
-    # sample_text = "The quick brown fox jumps. Over the lazy dog."
-    sample_text = """
-    riverrun, past Eve and Adam's, from swerve of shore to bend
-of bay, brings us by a commodius vicus of recirculation back to
-Howth Castle and Environs.
-    Sir Tristram, violer d'amores, fr'over the short sea, had passen-
-core rearrived from North Armorica on this side the scraggy
-isthmus of Europe Minor to wielderfight his penisolate war.
-    """  # Example from your context
+    # Use a sample text from the user request
+    sample_text = (
+        "IF you remember every word in this book, your memory will have "
+        "recorded about two million pieces of information: the order in your "
+        "brain will have increased by about two million units. However, while "
+        "you have been reading the book, you will have converted at least a "
+        "thousand calories of ordered energy, in the form of food, into "
+        "disordered energy, in the form of heat that you lose to the air around "
+        "you by convection and sweat. This will increase the disorder of the "
+        "universe by about twenty million million million million units - or "
+        "about ten million million million times the increase in order in your "
+        "brain - and that's if you remember everything in this book." )
 
     try:
         if not openai.api_key:
@@ -200,6 +206,52 @@ isthmus of Europe Minor to wielderfight his penisolate war.
             print("\n--- Evaluation Summary ---")
             print(f"Returned Final Score: {final_score_pct:.2f}%")
             print(f"Returned API Tokens Used (non-cached): {api_tokens}")
+
+            # Plot the result against reference benchmarks
+            def plot_with_icons(score):
+                benchmarks = {
+                    "KITT": 6.25,
+                    "Al Gore": 17.71,
+                    "Elizabeth Holmes": 27.42,
+                    "James Joyce": 2.45,
+                    "Input Text": score,
+                }
+
+                icon_urls = {
+                    "KITT": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f697.png",
+                    "Al Gore": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f3a4.png",
+                    "Elizabeth Holmes": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f9ea.png",
+                    "James Joyce": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f4da.png",
+                    "Input Text": "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f9e0.png",
+                }
+
+                names = list(benchmarks.keys())
+                values = list(benchmarks.values())
+                colors = ["#FF9999", "#FFE699", "#99FFCC", "#99CCFF", "#CC99FF"]
+
+                fig, ax = plt.subplots(figsize=(8, 6))
+                bars = ax.bar(names, values, color=colors)
+                ax.set_ylim(0, max(values) * 1.3)
+                ax.set_ylabel("LLM Probability (%)")
+                ax.set_title("KITT Scale Comparison")
+
+                for bar, name in zip(bars, names):
+                    url = icon_urls.get(name)
+                    try:
+                        resp = requests.get(url, timeout=5)
+                        icon_img = Image.open(BytesIO(resp.content))
+                        im = OffsetImage(icon_img, zoom=0.3)
+                        ab = AnnotationBbox(im, (bar.get_x() + bar.get_width() / 2, bar.get_height()), frameon=False, box_alignment=(0.5, -0.1))
+                        ax.add_artist(ab)
+                    except Exception as e:
+                        print(f"Failed to load icon for {name}: {e}")
+
+                plt.tight_layout()
+                plt.savefig("kitt_scale_plot.png")
+                plt.show()
+                plt.close()
+
+            plot_with_icons(final_score_pct)
     except KeyboardInterrupt:
         print("\nMain script execution interrupted by user.")
     finally:
