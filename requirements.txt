@@ -1,2 +1,8 @@
-openai
-python-dotenv
+openai==1.84.0
+python-dotenv==1.1.0
+sounddevice==0.5.2
+websocket-client==1.8.0
+numpy==2.3.0
+requests==2.32.3
+Pillow==11.2.1
+pydantic==2.10.3
