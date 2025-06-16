@@ -182,7 +182,7 @@ def on_message(ws_app, raw):
             # start recording loop
             threading.Thread(target=record_loop, daemon=True).start()
             # schedule auto shutdown
-            if _shutdown_timer: _shutdown_timer.cancel()  # Cancel any existing
+            if _shutdown_timer: _shutdown_timer.cancel()
             _shutdown_timer = Timer(MIN_RUN_SECONDS, initiate_shutdown)
             _shutdown_timer.start()
         return

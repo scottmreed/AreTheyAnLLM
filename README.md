@@ -1,15 +1,13 @@
-# AreTheyAnLLM
+# AreTheyAnLLM?
 
-> *“In the future, even our most human selves might reveal they’re not so human after all.”*
-
-A playful toolkit for sniffing out large-language-model output—whether it’s typed or spoken—and ranking it on Scott’s bespoke “KITT Scale.”
+A toolkit for sniffing out large-language-model output—whether it’s typed or spoken—and ranking it realtive to other possible LLMs.
 
 ---
 
 ## 🚀 What’s Inside
 
 - **Text Detective**:  
-  Feed any snippet to `isitllm.check(...)` and get back a likelihood score (0–100%) of “LLM-ness.”
+  Feed any snippet to `isitllm` and get back a score (0–100%) of “LLM-ness.”
 
 - **Voice Inspector**:  
   Speak into your mic; our realtime client streams audio to OpenAI’s `gpt-4o-mini-transcribe`, logs the transcript, then scores it in chunks.
@@ -37,7 +35,7 @@ A playful toolkit for sniffing out large-language-model output—whether it’s 
 
 1. **Clone** this repo
    ```bash
-   git clone https://github.com/your-org/AreTheyAnLLM.git
+   git clone https://github.com/your-org/AreTheyAnLLM.git   
    cd AreTheyAnLLM
    ```
 
@@ -49,37 +47,21 @@ A playful toolkit for sniffing out large-language-model output—whether it’s 
 3. **Configure**
    Create a `.env` file containing:
    ```
-   OPENAI_API_KEY=sk-...
+   OPENAI_API_KEY=...
    ```
 
 ### 🛠️ Usage
 
 **Text mode**
 ```python
-from isitllm import llm_or_human
-
-snippet = "In a hole in the ground there lived a hobbit..."
-score = llm_or_human(snippet)
-print(f"LLM Probability: {score*100:.2f}%")
+python isitllm.py
 ```
 
 **Voice mode**
 ```bash
-python realtime_transcribe_detect_with_logging.py
+python RealtimeLLMCheck.py #Allow access to your mic and start talking!
 ```
-Speak for 15 seconds (or press ENTER to stop early). Check `transcript.txt` for the full Δ/✔ log and watch your score roll in every 5 s chunk.
-
-### Image Resizing
-
-Run `python resize_images.py` to download the benchmark images and create half-sized versions for this README under `images/readme/` as well as 50x50 icons under `images/icons/`.
-
-### 🤝 Contributing
-
-Pull requests welcome!
-
-- Add more benchmarks to the KITT Scale
-- Tweak flush intervals or model choice
-- Improve the LLM detector algorithm
+Speak for 60 seconds (or press ENTER to stop early). Check `transcript.txt` for the full log and watch your score roll in and plot at kitt_scale_plot.png.
 
 ### 📜 License
 
